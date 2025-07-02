@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e0eafc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .weather-app {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            padding: 32px 24px;
+            width: 340px;
+        }
+        .weather-app h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .city {
+            text-align: center;
+            font-size: 1.2em;
+            color: #1976d2;
+            margin-bottom: 24px;
+        }
+        .current-weather {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .current-weather .icon {
+            font-size: 2.2em;
+        }
+        .current-weather .desc {
+            font-size: 1em;
+            color: #555;
+        }
+        .current-weather .temp {
+            font-weight: bold;
+            font-size: 1.3em;
+            color: #1976d2;
+        }
+ .day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f4f8fb;
+    border-radius: 8px;
+    padding: 10px 5px;
+    margin-bottom: 0;
+    min-width: 90px;
+width: 100%;
+ }
+.day .info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+}   
+.day .temp {
+    font-weight: bold;
+    color #1976d2;
+    font-size: 1.2em;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.day .weekday {
+    margin-top: 2px;
+    text-align: center;
+}
+.days ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}       
+.city-input {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .city-input input {
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .city-input button {
+            padding: 6px 14px;
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .city-input button:hover {
+            background: #125ea8;
+        }
+        .weeks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f8fb;
+}
+.weeksday {
+  width: 100%;
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #1976d2;
+  border-radius: 8px;
+  margin: 8px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  font-style: italic;
+  font-size: 12px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.desc{
+    text-align: center;
+}
+</style>
+</head>
+<body>
+    <div class="weather-app">
+        <h2>Weekly Weather</h2>
+        <div class="city-input">
+            <input type="text" id="cityInput" placeholder="Enter city..." />
+            <button onclick="fetchWeather()">Search</button>
+        </div>
+        <div class="city" id="cityName">India</div>
+        <div class="current-weather" id="currentWeather">
+            <span class="icon">☀️</span>
+            <span class="desc">Clear</span>
+            <span class="temp">25°C</span>
+        </div>
+        <div class="days" id="days">
+    <ul style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns: repeat(3, 1fr);gap:12px;">
+        <li class="day">
+            <div class="info">
+                <span class="icon">☀️</span>
+                <span class="desc">Clear</span>
+            </div>
+            <span class="temp">25°C</span>
+            <span class="weekday">Monday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">🌤️</span>
+                <span class="desc">Partly Cloudy</span>
+            </div>
+            <span class="temp">23°C</span>
+            <span class="weekday">Tuesday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">🌦️</span>
+                <span class="desc">Showers</span>
+            </div>
+            <span class="temp">21°C</span>
+            <span class="weekday">Wednesday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">⛅</span>
+                <span class="desc">Cloudy</span>
+            </div>
+            <span class="temp">22°C</span>
+            <span class="weekday">Thursday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">🌧️</span>
+                <span class="desc">Rain</span>
+            </div>
+            <span class="temp">20°C</span>
+            <span class="weekday">Friday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">⛈️</span>
+                <span class="desc">Thunderstorm</span>
+            </div>
+            <span class="temp">19°C</span>
+            <span class="weekday">Saturday</span>
+        </li>
+        <li class="day">
+            <div class="info">
+                <span class="icon">🌞</span>
+                <span class="desc">Sunny</span>
+            </div>
+            <span class="temp">26°C</span>
+            <span class="weekday">Sunday</span>
+        </li>
+    </ul>
+</div>
+  <div class="weeks"> 
+    <div class="weeksday">💨 Speed</div>
+    <div class="weeksday">👁️ Visibility</div>
+    <div class="weeksday">💧 Humidity</div>
+</div>
+</div>
+
+
+<script>
+function fetchWeather() {
+    const city = document.getElementById("cityInput").value.trim();
+    // Demo data for a few cities
+    let demoWeather = {
+        icon: "☀️",
+        desc: "Clear",
+        temp: "25°C",
+        wind: "15 km/h",
+        visibility: "10 km",
+        humidity: "65%",
+        country: "India",
+        days: [
+            { icon: "☀️", desc: "Clear", temp: "25°C", weekday: "Monday" },
+            { icon: "🌤️", desc: "Partly Cloudy", temp: "23°C", weekday: "Tuesday" },
+            { icon: "🌦️", desc: "Showers", temp: "21°C", weekday: "Wednesday" },
+            { icon: "⛅", desc: "Cloudy", temp: "22°C", weekday: "Thursday" },
+            { icon: "🌧️", desc: "Rain", temp: "20°C", weekday: "Friday" },
+            { icon: "⛈️", desc: "Thunderstorm", temp: "19°C", weekday: "Saturday" },
+            { icon: "🌞", desc: "Sunny", temp: "26°C", weekday: "Sunday" }
+        ]
+    };
+
+    if (city.toLowerCase() === "london") {
+        demoWeather = {
+            icon: "🌧️",
+            desc: "Rain",
+            temp: "16°C",
+            wind: "20 km/h",
+            visibility: "8 km",
+            humidity: "80%",
+            country: "UK",
+            days: [
+                { icon: "🌧️", desc: "Rain", temp: "16°C", weekday: "Monday" },
+                { icon: "🌦️", desc: "Showers", temp: "15°C", weekday: "Tuesday" },
+                { icon: "⛅", desc: "Cloudy", temp: "17°C", weekday: "Wednesday" },
+                { icon: "🌧️", desc: "Rain", temp: "16°C", weekday: "Thursday" },
+                { icon: "🌦️", desc: "Showers", temp: "15°C", weekday: "Friday" },
+                { icon: "🌧️", desc: "Rain", temp: "14°C", weekday: "Saturday" },
+                { icon: "⛅", desc: "Cloudy", temp: "16°C", weekday: "Sunday" }
+            ]
+        };
+    } else if (city.toLowerCase() === "new york") {
+        demoWeather = {
+            icon: "⛅",
+            desc: "Cloudy",
+            temp: "22°C",
+            wind: "10 km/h",
+            visibility: "12 km",
+            humidity: "70%",
+            country: "USA",
+            days: [
+                { icon: "⛅", desc: "Cloudy", temp: "22°C", weekday: "Monday" },
+                { icon: "🌤️", desc: "Partly Cloudy", temp: "23°C", weekday: "Tuesday" },
+                { icon: "☀️", desc: "Clear", temp: "25°C", weekday: "Wednesday" },
+                { icon: "⛅", desc: "Cloudy", temp: "21°C", weekday: "Thursday" },
+                { icon: "🌧️", desc: "Rain", temp: "20°C", weekday: "Friday" },
+                { icon: "🌦️", desc: "Showers", temp: "19°C", weekday: "Saturday" },
+                { icon: "☀️", desc: "Clear", temp: "24°C", weekday: "Sunday" }
+            ]
+        };
+    } else if (city.toLowerCase() === "tokyo") {
+        demoWeather = {
+            icon: "🌤️",
+            desc: "Partly Cloudy",
+            temp: "27°C",
+            wind: "12 km/h",
+            visibility: "15 km",
+            humidity: "60%",
+            country: "Japan",
+            days: [
+                { icon: "🌤️", desc: "Partly Cloudy", temp: "27°C", weekday: "Monday" },
+                { icon: "☀️", desc: "Clear", temp: "28°C", weekday: "Tuesday" },
+                { icon: "🌦️", desc: "Showers", temp: "26°C", weekday: "Wednesday" },
+                { icon: "⛅", desc: "Cloudy", temp: "25°C", weekday: "Thursday" },
+                { icon: "🌧️", desc: "Rain", temp: "24°C", weekday: "Friday" },
+                { icon: "🌤️", desc: "Partly Cloudy", temp: "27°C", weekday: "Saturday" },
+                { icon: "☀️", desc: "Clear", temp: "29°C", weekday: "Sunday" }
+            ]
+        };
+    }
+
+    // Update city and country
+    document.getElementById("cityName").textContent = city ? (city + ", " + demoWeather.country) : demoWeather.country;
+
+    // Update current weather
+    const currentWeather = document.getElementById("currentWeather");
+    if (currentWeather) {
+        currentWeather.querySelector(".icon").textContent = demoWeather.icon;
+        currentWeather.querySelector(".desc").textContent = demoWeather.desc;
+        currentWeather.querySelector(".temp").textContent = demoWeather.temp;
+    }
+
+    // Update weeksday stats
+    const weeksdayDivs = document.querySelectorAll('.weeksday');
+    if (weeksdayDivs.length >= 3) {
+        weeksdayDivs[0].innerHTML = '💨 Wind Speed<br><span style="font-size:0.9em;color:#1976d2;">' + demoWeather.wind + '</span>';
+        weeksdayDivs[1].innerHTML = '👁️ Visibility<br><span style="font-size:0.9em;color:#1976d2;">' + demoWeather.visibility + '</span>';
+        weeksdayDivs[2].innerHTML = '💧 Humidity<br><span style="font-size:0.9em;color:#1976d2;">' + demoWeather.humidity + '</span>';
+    }
+
+    // Update weekly forecast
+    // Find all .days > ul elements and update their children
+    const daysLists = document.querySelectorAll('.days ul');
+    let dayIndex = 0;
+    daysLists.forEach(ul => {
+        const dayLis = ul.querySelectorAll('.day');
+        dayLis.forEach(li => {
+            if (demoWeather.days[dayIndex]) {
+                li.querySelector('.icon').textContent = demoWeather.days[dayIndex].icon;
+                li.querySelector('.desc').textContent = demoWeather.days[dayIndex].desc;
+                li.querySelector('.temp').textContent = demoWeather.days[dayIndex].temp;
+                li.querySelector('.weekday').textContent = demoWeather.days[dayIndex].weekday;
+            }
+            dayIndex++;
+        });
+    });
+}
+
+</script>
+
+</body>
+</html>
